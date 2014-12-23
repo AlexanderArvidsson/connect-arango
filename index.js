@@ -11,7 +11,6 @@
 var crypto         = require( "crypto" );
 var arango         = require( "arangojs" );
 var url            = require( "url" );
-var util           = require( "util" );
 var debug          = require( "debug" )( "connect-arango" );
 var DatabaseHelper = require( "./database_helper.js" );
 

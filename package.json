@@ -1,6 +1,6 @@
 {
   "name": "connect-arango",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "ArangoDB session store for Connect.",
   "main": "index.js",
   "scripts": {
@@ -11,12 +11,15 @@
     "url": "https://github.com/Metamist/connect-arango"
   },
   "dependencies": {
+    "debug": ">= 0.7.0",
     "arangojs": "2.3.x"
   },
   "keywords": [
     "connect",
+    "arango",
     "arangodb",
-    "session"
+    "session",
+    "express"
   ],
   "author": "Metamist",
   "license": "MIT",
