@@ -6,7 +6,8 @@ ArangoDB session store for Connect.
 ## Installation
 
 via npm:
-	$ npm install connect-arango
+
+    $ npm install connect-arango
 
 ## Options
 
