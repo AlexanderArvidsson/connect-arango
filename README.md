@@ -3,25 +3,24 @@ connect-arango
 
 ArangoDB session store for Connect.
 
+## Notes
+
+* Requires that database is created.
+
 ## Installation
 
 via npm:
 
-    $ npm install connect-arango
+    $ npm install github:carlitux/connect-arango
 
 ## Options
 
   - `hash` (optional) Hash is an object, which will determine wether hash the sid in arango, since it's not undefined, means sid will be hashed
   - `hash.salt` Salt will be used to hash the sid in arango, default salt is "connect-arango"
   - `hash.algorithm` Hash algorithm, default algorithm is "sha1"
-  - `db` Database name OR fully instantiated ArangoDB object
+  - `db` An object with url and databaName fields
+           `url` default to: http://localhost:8529  you can use http://user:pass@localhost:8529
   - `collection` Collection (optional, default: `sessions`)
-  - `host` ArangoDB server hostname (optional, default: `127.0.0.1`)
-  - `port` ArangoDB server port (optional, default: `8529`)
-  - `username` Username (optional)
-  - `password` Password (optional)
-  - `url` Connection url of the form: `http://user:pass@host:port/_db/database/_admin/aardvark/standalone.html#collection/collection`.
-          If provided, information in the URL takes priority over the other options.
   - `stringify` If true, connect-arango will serialize sessions using `JSON.stringify` before
                 setting them, and deserialize them with `JSON.parse` when getting them.
                 (optional, default: true). This is useful if you are using types that
@@ -33,6 +32,7 @@ via npm:
                 (e.g., objects and JSON strings) or need to modify the session before using
                 it in your app.
   - `clear_interval` The amount of milliseconds to wait between session accesses to clear expired sessions.
+  - `ttl` ttl value in milliseconds used with clear_interval
 
 The second parameter to the `ArangoStore` constructor is a callback which will be called once the database is ready.
 
@@ -40,27 +40,27 @@ The second parameter to the `ArangoStore` constructor is a callback which will b
 
 With express4:
     
-    var session     = require( "express-session" );
-    var ArangoStore = require( "connect-arango" )( session );
+    var session = require('express-session');
+    var ArangoStore = require('connect-arango')(session);
 
-    app.use( session( {
+    app.use(session({
         secret: settings.cookie_secret,
-        store: new ArangoStore( {
+        store: new ArangoStore({
           db : settings.db,
-        } )
-      } ) );
+        })
+      }));
 
 With express<4:
 
     var express = require('express');
     var ArangoStore = require('connect-arango')(express);
 
-    app.use( express.session( {
+    app.use(express.session({
         secret: settings.cookie_secret,
-        store: new ArangoStore( {
+        store: new ArangoStore({
           db: settings.db
-        } )
-      } ) );
+        })
+      }));
 
 With connect:
 
