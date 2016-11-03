@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "debug": ">= 0.7.0",
-    "arangojs": "2.3.x"
+    "arangojs": ">=5.1.0"
   },
   "keywords": [
     "connect",
