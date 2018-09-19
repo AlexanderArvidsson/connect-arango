@@ -1,6 +1,6 @@
 {
   "name": "connect-arango",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "ArangoDB session store for Connect.",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "debug": ">= 0.7.0",
-    "arangojs": ">=5.1.0"
+    "arangojs": ">=6.6.0"
   },
   "keywords": [
     "connect",
