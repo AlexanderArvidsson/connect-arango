@@ -18,14 +18,7 @@ via npm:
   - `hash` (optional) Hash is an object, which will determine wether hash the sid in arango, since it's not undefined, means sid will be hashed
   - `hash.salt` Salt will be used to hash the sid in arango, default salt is "connect-arango"
   - `hash.algorithm` Hash algorithm, default algorithm is "sha1"
-  - `db` Database name OR fully instantiated ArangoDB object
-      - `host` ArangoDB server hostname (optional, default: `127.0.0.1`)
-      - `schema` schema (optional, default: `http`)
-      - `port` ArangoDB server port (optional, default: `8529`)
-      - `username` Username
-      - `password` Password
-      - `collection` Collection (optional, default: `sessions`)
-      - `database` database name
+  - `db` Database config as used in [arangojs](https://arangodb.github.io/arangojs/latest/modules/_connection_.html#config), ie. `new Database(config)`
   - `stringify` If true, connect-arango will serialize sessions using `JSON.stringify` before
                 setting them, and deserialize them with `JSON.parse` when getting them.
                 (optional, default: true). This is useful if you are using types that
