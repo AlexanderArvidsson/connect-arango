@@ -9,9 +9,9 @@ ArangoDB session store for Connect.
 
 ## Installation
 
-via npm:
+    $ npm install github:ryanking1809/connect-arango
 
-    $ npm install github:antioxidanz/connect-arango
+    $ yarn add github:ryanking1809/connect-arango
 
 ## Options
 
@@ -60,7 +60,7 @@ The second parameter to the `ArangoStore` constructor is a callback which will b
   Since ArangoDB does not have a TTL entry for documents, this is done using an AQL query in the session store.
   Every time a session is accessed, it will clear expired sessions, but only if it has passed more than `clear_interval` milliseconds (default 60 seconds)
   between each access.
-  
+
 
 ## License
 
