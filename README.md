@@ -9,9 +9,9 @@ ArangoDB session store for Connect.
 
 ## Installation
 
-    $ npm install github:ryanking1809/connect-arango
+    $ npm install connect-arango
 
-    $ yarn add github:ryanking1809/connect-arango
+    $ yarn add connect-arango
 
 ## Options
 
@@ -61,6 +61,9 @@ The second parameter to the `ArangoStore` constructor is a callback which will b
   Every time a session is accessed, it will clear expired sessions, but only if it has passed more than `clear_interval` milliseconds (default 60 seconds)
   between each access.
 
+## Contributions
+
+  Feel free to contribute anything you would like. I will make sure to check pull requests as often as I can.
 
 ## License
 
