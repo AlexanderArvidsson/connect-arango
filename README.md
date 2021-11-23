@@ -36,24 +36,24 @@ The second parameter to the `ArangoStore` constructor is a callback which will b
 
 ## Example
 
-    
-    var session = require('express-session');
-    var ArangoStore = require('connect-arango')(session);
+```javascript
+var session = require('express-session');
+var ArangoStore = require('connect-arango')(session);
 
-    app.use(session({
-        secret: process.env.SESSION_SECRET,
-        store: new ArangoStore({
-          db : {
-            url: process.env.DB_URL,
-            databaseName: process.env.DB_NAME,
-            auth: {
-              username: process.env.DB_USER,
-              password: process.env.DB_PASSWORD,
-            },
-          },
-        })
-      }));
-
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  store: new ArangoStore({
+    db : {
+      url: process.env.DB_URL,
+      databaseName: process.env.DB_NAME,
+      auth: {
+        username: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+      },
+    },
+  })
+}));
+```
 
 ## Removing expired sessions
 
