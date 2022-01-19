@@ -1,11 +1,6 @@
-connect-arango
-==============
+# connect-arango
 
-ArangoDB session store for Connect.
-
-## Notes
-
-* Requires that database is created.
+ArangoDB session store for Connect and Express.
 
 ## Installation
 
@@ -13,57 +8,76 @@ ArangoDB session store for Connect.
 
     $ yarn add connect-arango
 
-## Options
+## Requirements
 
-  - `hash` (optional) Hash is an object, which will determine wether hash the sid in arango, since it's not undefined, means sid will be hashed
-  - `hash.salt` Salt will be used to hash the sid in arango, default salt is "connect-arango"
-  - `hash.algorithm` Hash algorithm, default algorithm is "sha1"
-  - `db` Database config as used in [arangojs](https://arangodb.github.io/arangojs/latest/modules/_connection_.html#config)
-  - `stringify` If true, connect-arango will serialize sessions using `JSON.stringify` before
-                setting them, and deserialize them with `JSON.parse` when getting them.
-                (optional, default: true). This is useful if you are using types that
-                ArangoDB doesn't support.
-  - `serialize` Custom hook for serializing sessions to arangoDB. This is helpful if you need
-                to modify the session before writing it out.
-  - `unserialize` Custom hook for unserializing sessions from ArangoDB. This can be used in
-                scenarios where you need to support different types of serializations
-                (e.g., objects and JSON strings) or need to modify the session before using
-                it in your app.
-  - `clear_interval` The amount of milliseconds to wait between session accesses to clear expired sessions.
-  - `ttl` ttl value in milliseconds used with clear_interval
+-   arangoDB `>= 3.5.0`
+-   arangojs `>= 7.5.0`
+-   Existing arango database
 
-The second parameter to the `ArangoStore` constructor is a callback which will be called once the database is ready.
+## Usage
 
-## Example
+```js
+const session = require("express-session");
+const ArangoSessionStore = require("connect-arango");
 
-```javascript
-var session = require('express-session');
-var ArangoStore = require('connect-arango')(session);
-
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  store: new ArangoStore({
-    db : {
-      url: process.env.DB_URL,
-      databaseName: process.env.DB_NAME,
-      auth: {
-        username: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-      },
-    },
-  })
-}));
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET,
+		store: new ArangoSessionStore({
+			db: {
+				url: process.env.DB_URL,
+				databaseName: process.env.DB_NAME,
+				auth: {
+					username: process.env.DB_USER,
+					password: process.env.DB_PASSWORD,
+				},
+			},
+		}),
+	})
+);
 ```
 
-## Removing expired sessions
+**Resuse external arangojs Database instance**
 
-  Since ArangoDB does not have a TTL entry for documents, this is done using an AQL query in the session store.
-  Every time a session is accessed, it will clear expired sessions, but only if it has passed more than `clear_interval` milliseconds (default 60 seconds)
-  between each access.
+```js
+const session = require("express-session");
+const ArangoSessionStore = require("connect-arango");
+const { Database } = require("arangojs");
+
+const db = Database({
+	db: {
+		url: process.env.DB_URL,
+		databaseName: process.env.DB_NAME,
+		auth: {
+			username: process.env.DB_USER,
+			password: process.env.DB_PASSWORD,
+		},
+	},
+});
+
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET,
+		store: new ArangoSessionStore({ db: db }),
+	})
+);
+```
+
+## Options
+
+| Option            |                    Default                    | Description                                                                                                                                                                                                                                                                                                                                                       |
+| ----------------- | :-------------------------------------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `db` _\*required_ |                                               | Options object for [arangojs.Database()](https://github.com/arangodb/arangojs) method. Can also be provided with existing `Database` instance.                                                                                                                                                                                                                    |
+| `collectionName`  |                 `'sessions'`                  | The name of collection used for storing sessions                                                                                                                                                                                                                                                                                                                  |
+| `hash`            | `{algorithm: "sha1", salt: "connect-arango"}` | For hashing the session id before storing in the database. You can replace the `algorithm` or `salt` options. Or set to `false` to disable hashing.                                                                                                                                                                                                               |
+| `autoRemove`      |                    `true`                     | Sessions are automatically deleted using a `TTL Index` on the database and the session's `maxAge`. Set this to `false` to manage session deletion from the database manually.                                                                                                                                                                                     |
+| `disableTouch`    |                    `false`                    | The `express-session` package uses `touch` to signal to the store that the user has interacted with the session but hasn't changed anything in its data. Typically, this helps keep the users session alive if session changes are infrequent but you may want to disable it to cut down the extra calls or to prevent users from keeping sessions open too long. |
+| `serialize`       |                                               | Custom hook for serializing sessions to arangoDB. This is helpful if you need to modify the session before writing it out. Accepts a single `session` argument eg. `(session) => serializeSession(session)`                                                                                                                                                       |
+| `deserialize`     |                                               | Custom hook for deserializing sessions from ArangoDB. This can be used in scenarios where you need to support different types of serializations or need to modify the session before using it in your app. Accepts a single `session` argument eg. `(session) => deserializeSession(session)`                                                                     |
 
 ## Contributions
 
-  Feel free to contribute anything you would like. I will make sure to check pull requests as often as I can.
+Feel free to contribute anything you would like. I will make sure to check pull requests as often as I can.
 
 ## License
 
