@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryanking1809/connect-arango"
+    "url": "https://github.com/AlexanderArvidsson/connect-arango"
   },
   "dependencies": {
     "debug": ">= 0.7.0",
@@ -24,7 +24,7 @@
   "author": "Metamist",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Metamist/connect-arango/issues"
+    "url": "https://github.com/AlexanderArvidsson/connect-arango/issues"
   },
-  "homepage": "https://github.com/Metamist/connect-arango"
+  "homepage": "https://github.com/AlexanderArvidsson/connect-arango"
 }
