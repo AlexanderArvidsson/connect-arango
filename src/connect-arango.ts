@@ -66,7 +66,10 @@ class ArangoSessionStore extends session.Store {
   constructor(options: Options) {
     super();
 
-    const opts: ArangoSessionStoreOptions = { ...defaultOptions, ...options };
+    const opts: ArangoSessionStoreOptions = {
+      ...defaultOptions,
+      ...options,
+    };
     const { db, hash } = opts;
 
     if (db instanceof Database) {
@@ -111,7 +114,7 @@ class ArangoSessionStore extends session.Store {
     const collection = this.db.collection(this.options.collection);
 
     if (!this.initiatedCollection) {
-      if (!(await collection.create())) {
+      if (!(await collection.exists())) {
         await collection.create();
       }
 
