@@ -211,9 +211,11 @@ class ArangoSessionStore extends session.Store {
     session: session.SessionData,
     callback?: () => void
   ) {
-    if (this.options.disableTouch) return;
-
-    await this.set(sid, session, callback);
+    if (this.options.disableTouch) {
+      callback?.();
+    } else {
+      await this.set(sid, session, callback);
+    }
   }
 
   /** Destroys the dession with the given session ID. */
